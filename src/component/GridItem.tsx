@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
 
 const Container = styled.div`
   width: 100px;
@@ -20,9 +21,17 @@ const Image = styled.img`
 `;
 
 export default function GridItem() {
+  const [phase, setPhase] = useState<number>(0);
+  const popBalloon = () => {
+    setPhase(1);
+
+    setTimeout(() => setPhase(2), 500);
+  };
+
   return (
-    <Container>
-      <Image src="/image/balloon.png" alt="balloon" />
+    <Container onClick={popBalloon}>
+      {phase === 0 && <Image src="/image/balloon.png" alt="balloon" />}
+      {phase === 1 && <Image src="/image/pop.gif" alt="balloon" />}
     </Container>
   );
 }

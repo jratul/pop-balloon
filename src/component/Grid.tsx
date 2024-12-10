@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
 import GridItem from "./GridItem";
 
-const arr = Array.from(Array(7), () => Array(7).fill(0));
+const size = 20;
+
+const arr = Array.from(Array(size), () => Array(size).fill(0));
 
 const Container = styled.div`
   display: flex;
