@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import styled from "@emotion/styled";
 import { Pos } from "@model/model";
 import useGrid from "@hook/useGrid";
-import GridItem from "./GridItem";
 import { useLoadingStore } from "@store/loadingStore";
-import { useEffect } from "react";
+import GridItem from "./GridItem";
 import Button from "./Button";
+import Highlight from "./Highlight";
 
 const Topper = styled.div`
   display: flex;
@@ -53,7 +54,9 @@ export default function Grid() {
 
   return (
     <div>
-      <h1>Pop Balloon</h1>
+      <h1>
+        <Highlight>P</Highlight>op <Highlight>B</Highlight>alloon
+      </h1>
       <Topper>
         <Button disabled={loading} onClick={() => resetBalloons(size)}>
           Reset
