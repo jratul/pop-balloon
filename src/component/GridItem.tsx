@@ -1,6 +1,11 @@
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { useState } from "react";
-import { useLoadingStore } from "src/store/loadingStore";
+import { useLoadingStore } from "@store/loadingStore";
+
+interface Props {
+  balloonCount: number;
+  handleClick: () => void;
+}
 
 interface ContainerProps {
   disabled: boolean;
@@ -25,7 +30,7 @@ const Image = styled.img`
   height: 100%;
 `;
 
-export default function GridItem() {
+export default function GridItem({ balloonCount, handleClick }: Props) {
   const { loading, setLoading } = useLoadingStore();
   const [phase, setPhase] = useState<number>(0);
   const popBalloon = () => {
@@ -42,8 +47,16 @@ export default function GridItem() {
     }, 500);
   };
 
+  useEffect(() => {
+    if (balloonCount === 0) {
+      popBalloon();
+    } else {
+      setPhase(0);
+    }
+  }, [balloonCount]);
+
   return (
-    <Container onClick={popBalloon} disabled={loading}>
+    <Container onClick={handleClick} disabled={loading}>
       {phase === 0 && <Image src="/image/balloon.png" alt="balloon" />}
       {phase === 1 && <Image src="/image/pop.gif" alt="balloon" />}
     </Container>
