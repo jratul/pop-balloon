@@ -1,0 +1,29 @@
+@import "reset.css";
+
+@font-face {
+  font-family: "SCDream";
+  font-weight: "normal";
+  src: url("/font/SCDream5.otf");
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
+*,
+*:focus,
+*:hover {
+  outline: none;
+}
+
+html {
+  width: calc(100vw - 8px);
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "SCDream";
+}
