@@ -13,7 +13,7 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>`
   width: 100px;
-  height: 100px;
+  aspect-ratio: 1/1;
   background-color: #fbfafc;
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   display: flex;
@@ -44,10 +44,14 @@ export default function GridItem({ balloonCount, handleClick }: Props) {
     setTimeout(() => {
       setPhase(2);
       setLoading(false);
-    }, 500);
+    }, 300);
   };
 
   useEffect(() => {
+    if (loading) {
+      return;
+    }
+
     if (balloonCount === 0) {
       popBalloon();
     } else {
@@ -59,7 +63,7 @@ export default function GridItem({ balloonCount, handleClick }: Props) {
     <Container onClick={handleClick} disabled={loading}>
       {phase === 0 && <Image src="/image/balloon.png" alt="balloon" />}
       {phase === 1 && <Image src="/image/pop.gif" alt="balloon" />}
-      {balloonCount}
+      {/* {balloonCount} */}
     </Container>
   );
 }

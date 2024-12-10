@@ -42,8 +42,6 @@ export default function Grid() {
     popBalloon({ y, x });
   };
 
-  console.log(balloons);
-
   useEffect(() => {
     resetBalloons(size);
   }, []);
