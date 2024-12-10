@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Balloon, Pos, Size } from "@model/model";
+import { Balloons, Pos, Size } from "@model/model";
 import { defaultSizeValue } from "src/constant";
 import { useLoadingStore } from "@store/loadingStore";
 
@@ -19,7 +19,7 @@ function useGrid() {
     width: defaultSizeValue,
   });
 
-  const [balloons, setBallons] = useState<Balloon>({});
+  const [balloons, setBallons] = useState<Balloons>({});
 
   let maxCount = Math.max(
     ...Object.values(balloons).flatMap(inner => Object.values(inner)),
@@ -37,16 +37,33 @@ function useGrid() {
       delete newBalloons?.[y]?.[x];
     });
 
-    return newBalloons;
+    return calBalloons(newBalloons);
   };
 
   const popBalloon = (pos: Pos) => {
     setBallons(doPop(pos));
   };
 
+  const calBalloons = (balloons: Balloons) => {
+    Object.entries(balloons).map(([centerY, inner]) => {
+      Object.keys(inner).map(centerX => {
+        balloons[centerY][centerX] = 1;
+        getPosList({ y: Number(centerY), x: Number(centerX) }).map(
+          ({ y, x }) => {
+            if (balloons?.[y]?.[x] > 0) {
+              balloons[centerY][centerX]++;
+            }
+          },
+        );
+      });
+    });
+
+    return balloons;
+  };
+
   const resetBalloons = ({ height, width }: Size) => {
     setLoading(true);
-    const newBalloons: Balloon = {};
+    const newBalloons: Balloons = {};
     for (let i = 0; i < height; ++i) {
       for (let j = 0; j < width; ++j) {
         if (Math.random() > 0.5) {
@@ -58,19 +75,7 @@ function useGrid() {
       }
     }
 
-    Object.entries(newBalloons).map(([centerY, inner]) => {
-      Object.keys(inner).map(centerX => {
-        getPosList({ y: Number(centerY), x: Number(centerX) }).map(
-          ({ y, x }) => {
-            if (newBalloons?.[y]?.[x] > 0) {
-              newBalloons[centerY][centerX]++;
-            }
-          },
-        );
-      });
-    });
-
-    setBallons(newBalloons);
+    setBallons(calBalloons(newBalloons));
     setLoading(false);
   };
 

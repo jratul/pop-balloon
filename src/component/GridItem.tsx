@@ -59,6 +59,7 @@ export default function GridItem({ balloonCount, handleClick }: Props) {
     <Container onClick={handleClick} disabled={loading}>
       {phase === 0 && <Image src="/image/balloon.png" alt="balloon" />}
       {phase === 1 && <Image src="/image/pop.gif" alt="balloon" />}
+      {balloonCount}
     </Container>
   );
 }

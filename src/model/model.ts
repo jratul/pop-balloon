@@ -8,7 +8,7 @@ export interface Size {
   width: number;
 }
 
-export interface Balloon {
+export interface Balloons {
   [y: string]: {
     [x: string]: number;
   };
