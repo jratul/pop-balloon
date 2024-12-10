@@ -1,5 +1,5 @@
-import Grid from "@component/Grid";
 import styled from "@emotion/styled";
+import Grid from "@component/Grid";
 
 const Container = styled.div`
   max-width: 768px;
