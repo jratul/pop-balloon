@@ -6,6 +6,7 @@ import { useLoadingStore } from "@store/loadingStore";
 import GridItem from "./GridItem";
 import Button from "./Button";
 import Highlight from "./Highlight";
+import Loading from "./Loading";
 
 const Topper = styled.div`
   display: flex;
@@ -23,6 +24,7 @@ const Container = styled.div`
 const Row = styled.div`
   width: auto;
   display: flex;
+  justify-content: center;
   gap: 4px;
 `;
 
@@ -47,7 +49,11 @@ export default function Grid() {
   }, []);
 
   if (Object.keys(balloons).length === 0) {
-    return <div>loading...</div>;
+    return <Loading />;
+  }
+
+  if (maxCount === 0) {
+    return <div>Clear!</div>;
   }
 
   return (

@@ -33,6 +33,9 @@ const Image = styled.img`
 export default function GridItem({ balloonCount, handleClick }: Props) {
   const { loading, setLoading } = useLoadingStore();
   const [phase, setPhase] = useState<number>(0);
+
+  let timeout: number = 0;
+
   const popBalloon = () => {
     if (loading) {
       return;
@@ -41,7 +44,7 @@ export default function GridItem({ balloonCount, handleClick }: Props) {
     setLoading(true);
     setPhase(1);
 
-    setTimeout(() => {
+    timeout = setTimeout(() => {
       setPhase(2);
       setLoading(false);
     }, 300);
@@ -57,13 +60,16 @@ export default function GridItem({ balloonCount, handleClick }: Props) {
     } else {
       setPhase(0);
     }
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [balloonCount]);
 
   return (
     <Container onClick={handleClick} disabled={loading}>
       {phase === 0 && <Image src="/image/balloon.png" alt="balloon" />}
       {phase === 1 && <Image src="/image/pop.gif" alt="balloon" />}
-      {/* {balloonCount} */}
     </Container>
   );
 }
