@@ -34,24 +34,26 @@ const AlertContent = styled.div`
   width: 200px;
   height: 100px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+`;
+
+const ClearContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
 `;
 
 export default function Grid() {
   const { loading } = useLoadingStore();
-  const { size, balloons, maxCount, isValidTry, popBalloon, resetBalloons } =
+  const { size, balloons, maxCount, popBalloon, resetBalloons, failed } =
     useGrid();
 
   const arr = Array.from(Array(size.height), () => Array(size.width).fill(0));
 
   const handleClick = ({ y, x }: Pos) => {
-    if (!isValidTry({ y, x })) {
-      alert("game over");
-      return;
-    }
-
     popBalloon({ y, x });
   };
 
@@ -69,12 +71,34 @@ export default function Grid() {
         <>
           <Alert
             title="Clear!"
-            content={<AlertContent>이겼습니다!</AlertContent>}
+            content={
+              <AlertContent>
+                <ClearContainer>
+                  <img src="/image/clear.svg" alt="clear" />
+                </ClearContainer>
+                이겼습니다!
+              </AlertContent>
+            }
             buttonLabel="다시하기"
             handleButtonClick={() => resetBalloons(size)}
           />
           <Confetti />
         </>
+      )}
+      {failed && (
+        <Alert
+          title="Failed..."
+          content={
+            <AlertContent>
+              <ClearContainer>
+                <img src="/image/cry.svg" alt="clear" />
+              </ClearContainer>
+              패배했습니다
+            </AlertContent>
+          }
+          buttonLabel="다시하기"
+          handleButtonClick={() => resetBalloons(size)}
+        />
       )}
       <h1>
         <Highlight>P</Highlight>op <Highlight>B</Highlight>alloon

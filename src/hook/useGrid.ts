@@ -20,6 +20,7 @@ function useGrid() {
   });
 
   const [balloons, setBallons] = useState<Balloons>();
+  const [failed, setFailed] = useState<boolean>(false);
 
   let maxCount = Math.max(
     ...Object.values(balloons ?? {}).flatMap(inner => Object.values(inner)),
@@ -41,6 +42,11 @@ function useGrid() {
   };
 
   const popBalloon = (pos: Pos) => {
+    if (!isValidTry(pos)) {
+      setFailed(true);
+      return;
+    }
+
     setBallons(doPop(pos));
   };
 
@@ -62,6 +68,7 @@ function useGrid() {
   };
 
   const resetBalloons = ({ height, width }: Size) => {
+    setFailed(false);
     setLoading(true);
     const newBalloons: Balloons = {};
     for (let i = 0; i < height; ++i) {
@@ -84,9 +91,9 @@ function useGrid() {
     setSize,
     balloons,
     maxCount,
-    isValidTry,
     popBalloon,
     resetBalloons,
+    failed,
   };
 }
 

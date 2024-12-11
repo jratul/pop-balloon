@@ -18,7 +18,7 @@ const Container = styled.div`
 const Title = styled.div`
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   text-align: center;
 `;
 
