@@ -83,6 +83,7 @@ function useGrid() {
     }
 
     setBallons(calBalloons(newBalloons));
+    setSize({ height, width });
     setLoading(false);
   };
 

@@ -28,6 +28,10 @@ body {
   font-family: "SCDream";
 }
 
+input[type="number"] {
+  font-size: 30px;
+}
+
 .loader {
   width: 100px;
   height: 75px;
