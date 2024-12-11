@@ -81,6 +81,7 @@ export default function Grid() {
           step={1}
           defaultValue={size.width}
           ref={sizeInputRef}
+          disabled={loading}
         />
         <Button disabled={loading} onClick={handleReset}>
           <img src="/image/reset.svg" width={20} height={20} />
