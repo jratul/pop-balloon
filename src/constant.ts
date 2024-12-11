@@ -1,1 +1,1 @@
-export const defaultSizeValue = 10;
+export const defaultSizeValue = 5;

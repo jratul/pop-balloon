@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { useLoadingStore } from "@store/loadingStore";
+import { useLoadingStore } from "@store/useLoadingStore";
 
 interface Props {
   balloonCount: number;

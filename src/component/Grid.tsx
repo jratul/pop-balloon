@@ -1,16 +1,18 @@
 import { useEffect } from "react";
+import Confetti from "react-confetti";
 import styled from "@emotion/styled";
 import { Pos } from "@model/model";
 import useGrid from "@hook/useGrid";
-import { useLoadingStore } from "@store/loadingStore";
+import { useLoadingStore } from "@store/useLoadingStore";
 import GridItem from "./GridItem";
 import Button from "./Button";
 import Highlight from "./Highlight";
 import Loading from "./Loading";
+import Alert from "./Alert";
 
 const Topper = styled.div`
   display: flex;
-  margin-bottom: 4px;
+  margin-bottom: 20px;
 `;
 
 const Container = styled.div`
@@ -25,6 +27,15 @@ const Row = styled.div`
   width: auto;
   display: flex;
   justify-content: center;
+  gap: 4px;
+`;
+
+const AlertContent = styled.div`
+  width: 200px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 4px;
 `;
 
@@ -48,16 +59,23 @@ export default function Grid() {
     resetBalloons(size);
   }, []);
 
-  if (Object.keys(balloons).length === 0) {
+  if (!balloons) {
     return <Loading />;
-  }
-
-  if (maxCount === 0) {
-    return <div>Clear!</div>;
   }
 
   return (
     <div>
+      {balloons && maxCount === 0 && (
+        <>
+          <Alert
+            title="Clear!"
+            content={<AlertContent>이겼습니다!</AlertContent>}
+            buttonLabel="다시하기"
+            handleButtonClick={() => resetBalloons(size)}
+          />
+          <Confetti />
+        </>
+      )}
       <h1>
         <Highlight>P</Highlight>op <Highlight>B</Highlight>alloon
       </h1>

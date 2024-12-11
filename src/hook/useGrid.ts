@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Balloons, Pos, Size } from "@model/model";
 import { defaultSizeValue } from "src/constant";
-import { useLoadingStore } from "@store/loadingStore";
+import { useLoadingStore } from "@store/useLoadingStore";
 
 const getPosList = ({ y, x }: Pos): Pos[] => {
   return [
@@ -19,10 +19,10 @@ function useGrid() {
     width: defaultSizeValue,
   });
 
-  const [balloons, setBallons] = useState<Balloons>({});
+  const [balloons, setBallons] = useState<Balloons>();
 
   let maxCount = Math.max(
-    ...Object.values(balloons).flatMap(inner => Object.values(inner)),
+    ...Object.values(balloons ?? {}).flatMap(inner => Object.values(inner)),
   );
 
   if (!Number.isFinite(maxCount)) maxCount = 0;
