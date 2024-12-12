@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { useLoadingStore } from "@store/useLoadingStore";
 
@@ -30,7 +30,7 @@ const Image = styled.img`
   height: 100%;
 `;
 
-function GridItem({ balloonCount, onClick }: Props) {
+export default function GridItem({ balloonCount, onClick }: Props) {
   const { loading, setLoading } = useLoadingStore();
   const [phase, setPhase] = useState<number>(0);
 
@@ -81,5 +81,3 @@ function GridItem({ balloonCount, onClick }: Props) {
     </Container>
   );
 }
-
-export default memo(GridItem);
