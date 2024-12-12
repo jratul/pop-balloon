@@ -15,6 +15,10 @@ const Button = styled.button<{ disabled?: boolean }>`
   &:hover {
     background-color: ${props => (props.disabled ? "grey" : "#ef4444")};
   }
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
 `;
 
 export default Button;
