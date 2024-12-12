@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Range } from "react-range";
 import styled from "@emotion/styled";
 import { useLoadingStore } from "@store/useLoadingStore";
+import { Size } from "@model/model";
 import Button from "./Button";
 import { defaultSizeValue, maxSizeValue } from "src/constant";
-import { Size } from "@model/model";
 
 const Topper = styled.div`
   display: flex;

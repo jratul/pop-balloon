@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Balloons, Pos, Size } from "@model/model";
-import { defaultSizeValue } from "src/constant";
 import { useLoadingStore } from "@store/useLoadingStore";
+import { defaultSizeValue } from "src/constant";
 
-const getPosList = ({ y, x }: Pos): Pos[] => {
+const getTargetPosList = ({ y, x }: Pos): Pos[] => {
   return [
     { y: y - 1, x: x },
     { y: y, x: x - 1 },
@@ -34,7 +34,7 @@ function useGrid() {
 
   const doPop = ({ y, x }: Pos) => {
     const newBalloons = { ...balloons };
-    [...getPosList({ y, x }), { y, x }].map(({ y, x }) => {
+    [...getTargetPosList({ y, x }), { y, x }].map(({ y, x }) => {
       delete newBalloons?.[y]?.[x];
     });
 
@@ -54,7 +54,7 @@ function useGrid() {
     Object.entries(balloons).map(([centerY, inner]) => {
       Object.keys(inner).map(centerX => {
         balloons[centerY][centerX] = 1;
-        getPosList({ y: Number(centerY), x: Number(centerX) }).map(
+        getTargetPosList({ y: Number(centerY), x: Number(centerX) }).map(
           ({ y, x }) => {
             if (balloons?.[y]?.[x] > 0) {
               balloons[centerY][centerX]++;
