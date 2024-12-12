@@ -19,7 +19,7 @@ const Topper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   margin-bottom: 20px;
 `;
 
@@ -126,7 +126,7 @@ export default function Grid() {
               <GridItem
                 key={x}
                 balloonCount={balloons?.[y]?.[x] ?? 0}
-                handleClick={() => handleClick({ y, x })}
+                onClick={() => handleClick({ y, x })}
               />
             ))}
           </Row>
