@@ -5,10 +5,23 @@ import { defaultSizeValue } from "src/constant";
 
 const getTargetPosList = ({ y, x }: Pos): Pos[] => {
   return [
-    { y: y - 1, x: x },
-    { y: y, x: x - 1 },
-    { y: y, x: x + 1 },
-    { y: y + 1, x: x },
+    { y: y - 1, x },
+    { y, x: x - 1 },
+    { y, x: x + 1 },
+    { y: y + 1, x },
+  ];
+};
+
+const getAffectPosList = ({ y, x }: Pos): Pos[] => {
+  return [
+    { y: y - 2, x },
+    { y: y - 1, x: x - 1 },
+    { y: y - 1, x: x + 1 },
+    { y, x: x - 2 },
+    { y, x: x + 2 },
+    { y: y + 1, x: x - 1 },
+    { y: y + 1, x: x + 1 },
+    { y: y + 2, x: x },
   ];
 };
 
@@ -32,13 +45,26 @@ function useGrid() {
     return balloons?.[y]?.[x] === maxCount;
   };
 
-  const doPop = ({ y, x }: Pos) => {
+  const calOnePos = (balloons: Balloons, { y, x }: Pos) => {
+    if (balloons?.[y]?.[x] > 0) {
+      balloons[y][x] = getTargetPosList({ y, x }).reduce((acc, cur) => {
+        if (balloons?.[cur.y]?.[cur.x] > 0) {
+          return acc + 1;
+        }
+        return acc;
+      }, 1);
+    }
+  };
+
+  const doPop = (balloons: Balloons, { y, x }: Pos) => {
     const newBalloons = { ...balloons };
     [...getTargetPosList({ y, x }), { y, x }].map(({ y, x }) => {
       delete newBalloons?.[y]?.[x];
     });
 
-    return calBalloons(newBalloons);
+    getAffectPosList({ y, x }).map(affectPos => {
+      calOnePos(newBalloons, affectPos);
+    });
   };
 
   const popBalloon = (pos: Pos) => {
@@ -47,24 +73,19 @@ function useGrid() {
       return;
     }
 
-    setBallons(doPop(pos));
+    const newBalloons = { ...balloons };
+
+    doPop(newBalloons, pos);
+
+    setBallons(newBalloons);
   };
 
   const calBalloons = (balloons: Balloons) => {
     Object.entries(balloons).map(([centerY, inner]) => {
       Object.keys(inner).map(centerX => {
-        balloons[centerY][centerX] = 1;
-        getTargetPosList({ y: Number(centerY), x: Number(centerX) }).map(
-          ({ y, x }) => {
-            if (balloons?.[y]?.[x] > 0) {
-              balloons[centerY][centerX]++;
-            }
-          },
-        );
+        calOnePos(balloons, { y: Number(centerY), x: Number(centerX) });
       });
     });
-
-    return balloons;
   };
 
   const resetBalloons = ({ height, width }: Size) => {
@@ -82,7 +103,9 @@ function useGrid() {
       }
     }
 
-    setBallons(calBalloons(newBalloons));
+    calBalloons(newBalloons);
+
+    setBallons(newBalloons);
     setSize({ height, width });
     setLoading(false);
   };
